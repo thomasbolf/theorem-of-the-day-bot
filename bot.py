@@ -22,7 +22,7 @@ async def myLoop():
         if channel is not None:
             pinned_messages = await channel.pins()
             if len(pinned_messages) == 0:
-                message = await channel.send("This is an important message that will be pinned.")
+                message = await channel.send("Greetings! I am the Theorem of the Day Bot! I send the Theorem of the Day from https://www.theoremoftheday.org to this chat for awareness and discussion.")
                 await message.pin()
             await channel.send(get_happy_day(), file = discord.File("totdImage.png"))
 
