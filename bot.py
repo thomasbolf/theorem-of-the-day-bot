@@ -13,18 +13,25 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-@tasks.loop(seconds=60)
+@tasks.loop(seconds=86400)
 async def myLoop():
     await client.wait_until_ready()
     save_daily_image()
     for guild in client.guilds:
         channel = discord.utils.get(guild.text_channels, name='totd')
-        await channel.send(get_happy_day(), file = discord.File("totdImage.png"))
+        if channel is not None:
+            pinned_messages = await channel.pins()
+            if len(pinned_messages) == 0:
+                message = await channel.send("This is an important message that will be pinned.")
+                await message.pin()
+            await channel.send(get_happy_day(), file = discord.File("totdImage.png"))
+
 
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
     myLoop.start()  # Start the periodic task
+
 
 if __name__ == "__main__":
     client.run(os.getenv("TOKEN"))
