@@ -20,23 +20,21 @@ async def myLoop():
     for guild in client.guilds:
         channel = discord.utils.get(guild.text_channels, name='totd')
         if channel is not None:
-            pinned_messages = await channel.pins()
             await channel.send(get_happy_day(), file = discord.File("totdImage.png"))
 
 
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
-    for guild in client.guilds:
-        channel = discord.utils.get(guild.text_channels, name='totd')
-        if channel is not None:
-            pinned_messages = await channel.pins()
-            if len(pinned_messages) == 0:
-                message = await channel.send("Greetings! I am the Theorem of the Day Bot! I send the Theorem of the Day from https://www.theoremoftheday.org to this chat for awareness and discussion.")
-                await message.pin()
-        
     myLoop.start()  # Start the periodic task
 
+
+@client.event
+async def on_guild_join(guild):
+    await guild.create_text_channel("totd")
+    channel = discord.utils.get(guild.text_channels, name='totd')
+    message = await channel.send("Greetings! I am the Theorem of the Day Bot! I send the Theorem of the Day from https://www.theoremoftheday.org to this chat for awareness and discussion.")
+    await message.pin()
 
 if __name__ == "__main__":
     client.run(os.getenv("TOKEN"))

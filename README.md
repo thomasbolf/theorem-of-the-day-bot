@@ -10,4 +10,6 @@ Currently this app is running on an AWS Free Tier EC2 instance. If I run into pr
 - **`utils.py`**: Contains utility functions for generating messages and handling images.
 - **`pdf_handler.py`**: Handles PDF fetching and conversion to images.
 
+## SETUP
 
+https://discord.com/oauth2/authorize?client_id=1267223585940832298
